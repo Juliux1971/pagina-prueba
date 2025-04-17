@@ -128,7 +128,7 @@
         userMsg.textContent = "Tú: " + input.value;
         mensajes.appendChild(userMsg);
 
-        fetch("https://tuservidor.n8n.cloud/webhook/mensaje-web", {
+        fetch("https://primary-production-a1d9e.up.railway.app/webhook-test/mensaje-web", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ mensaje: input.value })
