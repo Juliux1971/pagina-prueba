@@ -93,11 +93,27 @@
         userMsg.textContent = "Tú: " + input.value;
         messages.appendChild(userMsg);
 
-        // Aquí podrías llamar a n8n con fetch() en el futuro
-        const reply = document.createElement("div");
-        reply.textContent = "IA: (esperando respuesta de n8n...)";
-        reply.style.color = "gray";
-        messages.appendChild(reply);
+    // Enviar mensaje al webhook de n8n
+    fetch("https://primary-production-a1d9e.up.railway.app/webhook-test/mensaje-web", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ mensaje: input.value })
+    })
+    .then(response => response.text())
+    .then(data => {
+      const reply = document.createElement("div");
+      reply.textContent = "IA: " + data;
+      reply.style.color = "gray";
+      messages.appendChild(reply);
+    })
+    .catch(error => {
+      const errorMsg = document.createElement("div");
+      errorMsg.textContent = "Error al contactar con el servidor.";
+      errorMsg.style.color = "red";
+      messages.appendChild(errorMsg);
+    });
 
         messages.scrollTop = messages.scrollHeight;
         input.value = "";
